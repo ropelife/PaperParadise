@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const Photos = require('../models/photos');
+const  multipart  =  require('connect-multiparty');
+const  multipartMiddleware  =  multipart({ uploadDir:  '../angular-paperparadise/src/assets/images' });
 
 router.get('/allphotos', (req, res, next)=>{
 	// res.send('Retrieving photos');
@@ -10,11 +12,24 @@ router.get('/allphotos', (req, res, next)=>{
 	})
 });
 
+//fetching for one id
+router.get('/photo/:id', (req, res, next)=>{
+	Photos.find({_id: req.params.id}, function(err, result){
+		if(err){
+			res.json(err);
+		}
+		else{
+			res.json(result);
+		}
+	});
+});
+
 //add photos
-router.post('/addphoto',(req, res, next)=>{
+router.post('/addphoto', multipartMiddleware, (req, res, next)=>{
 	let newPhoto = new Photos({
 		imageTitle: req.body.imageTitle,
-		imageLocation: req.body.imageLocation
+		imageLocation: req.body.cardfile.name
+		//imageLocation: req.body.imageLocation
 	});
 
 	newPhoto.save((err, photos)=>{

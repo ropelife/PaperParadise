@@ -27,9 +27,10 @@ const port = 3000;
 app.use(cors());
 
 app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({
-    extended: true
-}));
+
+// app.use(bodyparser.urlencoded({
+//     extended: true
+// }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,3 +43,4 @@ app.get('/',(req,res)=>{
 app.listen(port,()=>{
 	console.log('Server started at port:'+port);
 });
+

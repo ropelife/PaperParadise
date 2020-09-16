@@ -28,13 +28,14 @@ app.use(cors());
 
 app.use(bodyparser.json());
 
-// app.use(bodyparser.urlencoded({
-//     extended: true
-// }));
+app.use(bodyparser.urlencoded({
+    extended: false
+}));
+
+app.use('/api', route);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', route);
 
 app.get('/',(req,res)=>{
 	res.send('foobar');

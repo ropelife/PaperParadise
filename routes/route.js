@@ -62,6 +62,7 @@ router.get('/photo/:id', (req, res, next)=>{
  
 router.post('/addphoto', upload.single('file'), (req, res, next)=>{
 	console.log('adding foto only');
+	console.log('req->'+req);
 	const file = req.file;
 	console.log("filename->"+file.filename);
 	console.log("imageTitle->"+req.body.imageTitle);
@@ -107,7 +108,7 @@ router.delete('/deletephoto/:id',(req, res, next)=>{
 //update photos
 router.post('/updatetitle',(req, res, next)=>{
 	console.log("new");
-	console.log("id->"+req.body);
+	console.log("id->"+req.body.id);
 	console.log("titlw->"+req.body.imgtitle);
 	Photos.updateOne({
 		_id:req.body.id
@@ -122,8 +123,12 @@ router.post('/updatetitle',(req, res, next)=>{
 
 
 //login api
-router.post('/loginsys', (req, res, next)=>{
+router.post('/loginsys',(req, res)=>{
 	console.log("req->"+req.body.usrname);
+	// for (key in req.body){
+	// 	console.log(key);
+	// }
+
 	Users.find({username: req.body.usrname, password: req.body.pwd}, function(err, result){
 		console.log("username->"+req.body.usrname);
 		console.log("password->"+req.body.pwd);
@@ -132,6 +137,7 @@ router.post('/loginsys', (req, res, next)=>{
 		}
 		else{
 			if(result.length>0){
+				console.log("correct");
 				res.json(200);
 			}else{
 				res.json(404);
